@@ -1,8 +1,5 @@
 package uk.ac.cam.ej349.supo4;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.StringReader;
 import java.util.*;
 
 public class Dijkstra {
@@ -133,14 +130,14 @@ public class Dijkstra {
         return shortestPath;
     }
 
-    private static List<List<Integer>> toList(String input) throws IOException {
+    private static List<List<Integer>> toList(String input) {
         List<List<String>> symbols = new ArrayList<>();
         List<List<Integer>> output = new ArrayList<>();
         String[] lines = input.split("\n");
         int maxlinesize = 0;
         for (String line : lines) {
             String[] characters = line.split("");
-            List<String> symline = new ArrayList<String>(Arrays.asList(characters));
+            List<String> symline = new ArrayList<>(Arrays.asList(characters));
             if (symline.size() > maxlinesize) {
                 maxlinesize = symline.size();
             }
@@ -151,17 +148,14 @@ public class Dijkstra {
                 symline.add(" ");
             }
         }
-        for (int i = 0; i < symbols.size(); i++) {
+        for (List<String> symbol : symbols) {
             List<Integer> line = new ArrayList<>();
             for (int j = 0; j < symbols.get(0).size(); j++) {
-                if (symbols.get(i).get(j).equals("#")) {
-                    line.add(1);
-                } else if (symbols.get(i).get(j).equals(" ")) {
-                    line.add(0);
-                } else if (symbols.get(i).get(j).equals("S")) {
-                    line.add(2);
-                } else {
-                    line.add(3);
+                switch (symbol.get(j)) {
+                    case "#" -> line.add(1);
+                    case " " -> line.add(0);
+                    case "S" -> line.add(2);
+                    default -> line.add(3);
                 }
             }
             output.add(line);
@@ -169,7 +163,7 @@ public class Dijkstra {
         return output;
     }
 
-    private static String dijkstra(String input) throws IOException {
+    private static String dijkstra(String input) {
         List<List<Integer>> list = toList(input);
         Set<Vertex> vertices = getVertices(list);
         Map<Vertex, Set<Vertex>> edges = getEdges(vertices);
@@ -201,7 +195,7 @@ public class Dijkstra {
         return output.toString();
     }
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
 
         String input = """
                 #####   #####
